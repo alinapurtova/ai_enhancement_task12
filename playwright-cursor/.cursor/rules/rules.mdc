@@ -1,0 +1,62 @@
+# Playwright-MCP Coding Guidelines
+---
+description: Rules for AI agent working in Playwright MCP automation project
+alwaysApply: true
+globs:
+  - "**/*.ts"
+  - "playwright-cursor/**"
+  - "**/*.spec.ts"
+---
+
+## 1. File Structure
+- All code must live in `playwright-claude`:
+  - Pages - `playwright-claude/pages`
+  - Tests/Specs - `playwright-claude/tests`
+  - Utils - `playwright-claude/utils`
+- Do **not** create files outside these folders.
+
+## 2. Page Object Model (POM)
+- **MANDATORY**: Every spec MUST have a corresponding page object.
+- Page objects define **all selectors and interactions**; specs contain **only test logic**.
+- All page objects must extend a **BasePage** with reusable methods(like `click`, `type`, `waitForVisible`, `getText`, etc.)
+- One page per file; export a single class.
+- **Do not** include assertions or test data in page objects.
+
+## 3. Locators
+- Declare selectors as constants before the constructor and use the UPPERCASE for them.
+```bash
+const SAMSUNG_GALAXY_S6_LINK = 'a.hrefch:has-text("Samsung galaxy s6")';
+
+export class HomePage extends BasePage {
+  constructor(page: Page) {
+    super(page);
+  }
+
+  async clickSamsungGalaxyS6(): Promise<void> {
+    await this.page.click(SAMSUNG_GALAXY_S6_LINK);
+  }
+}
+```
+
+- Validate all selectors via MCP inspector; do not guess.
+- Selector priority:
+  1. `testId` / data attributes
+  2. Accessibility roles / labels
+  3. CSS
+  4. XPath only if no alternative exists
+
+## 4. Spec Files
+- Must live in `playwright-claude/tests`.
+- Follow AAA principle: **Arrange - Act - Assert**.
+- Use explicit Playwright `expect` assertions.
+- No hard-coded waits; use Playwright smart waits only.
+
+## 5. MCP Usage
+- Use MCP tools for UI inspection, locator validation, and navigation.
+- Do **not** create random or auto-generated spec names/files.
+
+## 6. Stability & Quality
+- Tests must be independent; no shared state.
+- Use `beforeEach` only for navigation.
+- Avoid flaky waits and race conditions.
+- Code must compile and run without manual fixes.
