@@ -1,0 +1,13 @@
+node_modules/
+package-lock.json
+
+playwright-report/
+test-results/
+playwright/.cache/
+
+*.log
+npm-debug.log*
+
+.vscode/
+.idea/
+!playwright.config.js
