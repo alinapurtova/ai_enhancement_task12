@@ -80,3 +80,35 @@ npx cypress run --browser firefox
 npx cypress run --browser edge
 npx cypress run --browser electron
 ```
+
+## Test Reports
+
+Cypress Cloud automatically generates test reports once the project is connected with an access key. Because reporting is handled by Cypress Cloud, there is no need to configure or describe a separate report setup in the project.
+
+### Setting Up Your Own Project Key
+
+To configure your own Cypress Cloud project and generate reports:
+
+1. **Get your Project ID**:
+   - Sign in to [Cypress Cloud](https://cloud.cypress.io/)
+   - Create a new project or select an existing one
+   - Copy your Project ID from the project settings
+
+2. **Update the configuration**:
+   - Open `cypress.config.js` in the project root
+   - Replace the `projectId` value with your own Project ID:
+     ```javascript
+     module.exports = defineConfig({
+       projectId: "here",
+       // ... rest of config
+     });
+     ```
+
+3. **Record test runs** (optional):
+   - To send test results to Cypress Cloud, run tests with the `--record` flag:
+     ```bash
+     npx cypress run --record --key YOUR_RECORD_KEY
+     ```
+   - Your record key can be found in your Cypress Cloud project settings
+
+For more detailed information about Cypress Cloud setup and reporting, visit the [Cypress Cloud Documentation](https://docs.cypress.io/guides/cloud/introduction).
